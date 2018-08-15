@@ -1,0 +1,115 @@
+<project
+ xmlns="http://maven.apache.org/POM/4.0.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>pl.rychu</groupId>
+	<artifactId>embian</artifactId>
+	<version>1.0-SNAPSHOT</version>
+
+	<properties>
+		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>2.26-b03</version>
+			<!-- problems with 2.27 -->
+			<!-- I have the same problem, after downgrading to the version deployed in march (2.26-b03) everything is back to normal, hope it helps -->
+			<!-- Jersey stopped working with InjectionManagerFactory not found -->
+			<!-- https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injectionmanagerfactory-not-found -->
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- http://repo.maven.apache.org/maven2/org/slf4j/slf4j-log4j12/ -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+		<!-- http://repo.maven.apache.org/maven2/log4j/log4j/ -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- http://repo.maven.apache.org/maven2/junit/junit/ -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- http://repo.maven.apache.org/maven2/org/easytesting/fest-assert/ -->
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert</artifactId>
+			<version>1.4</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- http://repo.maven.apache.org/maven2/pl/pragmatists/JUnitParams/ -->
+		<dependency>
+			<groupId>pl.pragmatists</groupId>
+			<artifactId>JUnitParams</artifactId>
+			<version>1.1.1</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+
+			<!-- mvn clean compile assembly:single -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>pl.rychu.embian.Main</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

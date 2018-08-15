@@ -1,0 +1,5 @@
+# put me to home directory
+
+host=http://server:8096/emby/
+user=user
+pass=pass
