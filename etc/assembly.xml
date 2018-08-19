@@ -6,6 +6,7 @@
         <format>tar.gz</format>
         <format>zip</format>
     </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
     <files>
         <file>
             <source>README.md</source>
@@ -14,14 +15,7 @@
         <file>
             <source>${project.build.directory}/embian-1.0-SNAPSHOT-jar-with-dependencies.jar</source>
             <outputDirectory>/</outputDirectory>
-        </file>
-    </files>
-</assembly>
-putDirectory>
-        </file>
-    </files>
-</assembly>
-e>
+            <destName>embian.jar</destName>
         </file>
     </files>
 </assembly>

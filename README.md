@@ -52,3 +52,9 @@ The `CrawlAndCommand` first instantiates item strategies chosen by the user and 
 The `EmbyCrawler` produces list of item operations that are executed by `CrawlAndCommand`.
 
 Unfortunately Embian gives no extensibility besides downloading sources and modifying.
+
+### Todos
+
+- Trigger Emby reindex via API (Emby reindex will be triggered after ending of the backup procedure
+that copies from my main storage to the backup storage which also is Emby repo)
+- Trigger Embian after Emby finishes reindexing (check if reindexing is done via API)
