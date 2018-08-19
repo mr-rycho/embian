@@ -50,3 +50,5 @@ The `Main` class reads login options and the command and then creates an authent
 
 The `CrawlAndCommand` first instantiates item strategies chosen by the user and runs `EmbyCrawler` with them.
 The `EmbyCrawler` produces list of item operations that are executed by `CrawlAndCommand`.
+
+Unfortunately Embian gives no extensibility besides downloading sources and modifying.
