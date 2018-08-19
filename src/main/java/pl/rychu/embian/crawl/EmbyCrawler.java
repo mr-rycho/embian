@@ -31,9 +31,9 @@ public class EmbyCrawler {
 		this.fieldQuery = String.join(",", allFields);
 	}
 
-	public List<ItemCommands> crawl() {
-		List<ItemCommands> commands = new ArrayList<>();
-		List<ItemCommands> commandsThreadSafe = Collections.synchronizedList(commands);
+	public List<ItemOperations> crawl() {
+		List<ItemOperations> commands = new ArrayList<>();
+		List<ItemOperations> commandsThreadSafe = Collections.synchronizedList(commands);
 		new ForkJoinPool(10).invoke(new Task(null, commandsThreadSafe));
 		return commands;
 	}
@@ -43,17 +43,16 @@ public class EmbyCrawler {
 	private class Task extends RecursiveAction {
 
 		private final String itemId;
-		private final List<ItemCommands> commands;
+		private final List<ItemOperations> commands;
 
-		public Task(String itemId, List<ItemCommands> targetCommands) {
+		public Task(String itemId, List<ItemOperations> targetCommands) {
 			this.itemId = itemId;
 			this.commands = targetCommands;
 		}
 
 		@Override
 		protected void compute() {
-			List<Item> items = embyClient.getItems(itemId, fieldQuery).stream().filter(Item::isFolder)
-			 .collect(toList());
+			List<Item> items = embyClient.getItems(itemId, fieldQuery).stream().filter(Item::isFolder).collect(toList());
 			List<Task> recursiveTasks = new ArrayList<>();
 			for (Item item : items) {
 				boolean shouldRecurse = false;
@@ -64,8 +63,8 @@ public class EmbyCrawler {
 					shouldRecurse |= itemScanResult.isShouldRecurse();
 				}
 				if (!allOperations.isEmpty()) {
-					ItemCommands itemCommands = new ItemCommands(item.getId(), item.getPath(), allOperations);
-					commands.add(itemCommands);
+					ItemOperations itemOperations = new ItemOperations(item.getId(), item.getPath(), allOperations);
+					commands.add(itemOperations);
 				}
 				if (shouldRecurse) {
 					recursiveTasks.add(new Task(item.getId(), commands));

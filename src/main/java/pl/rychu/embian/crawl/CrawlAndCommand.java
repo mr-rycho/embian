@@ -84,10 +84,10 @@ public class CrawlAndCommand {
 		EmbyCrawler embyCrawler = new EmbyCrawler(embyClient, itemStrategies);
 
 		long t0 = System.currentTimeMillis();
-		List<ItemCommands> commands = embyCrawler.crawl();
+		List<ItemOperations> commands = embyCrawler.crawl();
 		long t1 = System.currentTimeMillis();
 		log.info("crawled in {} ms", t1 - t0);
-		Comparator<ItemCommands> cmp = Comparator.comparing(ItemCommands::getItemPath);
+		Comparator<ItemOperations> cmp = Comparator.comparing(ItemOperations::getItemPath);
 		commands.sort(cmp);
 		log.info("got {} commands", commands.size());
 		for (ItemCommandType type : ItemCommandType.values()) {

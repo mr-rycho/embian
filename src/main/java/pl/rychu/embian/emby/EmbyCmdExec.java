@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.rychu.embian.crawl.ItemCommandType;
-import pl.rychu.embian.crawl.ItemCommands;
 import pl.rychu.embian.crawl.ItemOperation;
+import pl.rychu.embian.crawl.ItemOperations;
 
 import java.util.*;
 
@@ -24,10 +24,10 @@ public class EmbyCmdExec {
 		this.embyClient = embyClient;
 	}
 
-	public void execute(ItemCommands itemCommands) {
-		log.debug("executing {}", itemCommands);
+	public void execute(ItemOperations itemOperations) {
+		log.debug("executing {}", itemOperations);
 
-		List<ItemOperation> ops = itemCommands.getOperations();
+		List<ItemOperation> ops = itemOperations.getOperations();
 		if (ops.isEmpty()) {
 			return;
 		}
@@ -37,7 +37,7 @@ public class EmbyCmdExec {
 			return;
 		}
 
-		String itemId = itemCommands.getItemId();
+		String itemId = itemOperations.getItemId();
 		Item item = embyClient.getItem(itemId);
 		Map<String, Object> newItem = item.cloneMap();
 		for (ItemOperation op : ops) {
