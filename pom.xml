@@ -116,14 +116,9 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<archive>
-								<manifest>
-									<mainClass>pl.rychu.embian.Main</mainClass>
-								</manifest>
-							</archive>
-							<descriptorRefs>
-								<descriptorRef>bin</descriptorRef>
-							</descriptorRefs>
+							<descriptors>
+								<descriptor>etc/assembly.xml</descriptor>
+							</descriptors>
 						</configuration>
 					</execution>
 				</executions>
