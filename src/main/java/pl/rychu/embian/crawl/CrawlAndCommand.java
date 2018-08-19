@@ -108,26 +108,33 @@ public class CrawlAndCommand {
 
 			executorService.shutdown();
 
-			try {
-				while (true) {
-					boolean isDone = executorService.awaitTermination(10L, TimeUnit.SECONDS);
-					if (isDone) {
-						break;
-					}
-					if (executorService instanceof ThreadPoolExecutor) {
-						ThreadPoolExecutor tpe = (ThreadPoolExecutor) executorService;
-						int x = tpe.getActiveCount() + tpe.getQueue().size();
-						double percent = 100.0 * x / commands.size();
-						System.out.println(String.format("%5.1f", percent));
-					}
-				}
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
+			waitWithProgressBar(executorService, commands.size());
 
 			t1 = System.currentTimeMillis();
 			log.info("executed {} commands in {} ms", commands.size(), t1 - t0);
 		}
+	}
+
+	// --------
+
+	private void waitWithProgressBar(ExecutorService executorService, int fullSize) {
+		try {
+			while (true) {
+				boolean isDone = executorService.awaitTermination(10L, TimeUnit.SECONDS);
+				if (isDone) {
+					break;
+				}
+				if (executorService instanceof ThreadPoolExecutor) {
+					ThreadPoolExecutor tpe = (ThreadPoolExecutor) executorService;
+					int x = tpe.getActiveCount() + tpe.getQueue().size();
+					double percent = 100.0 * x / fullSize;
+					System.out.println(String.format("%5.1f", percent));
+				}
+			}
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 
 }
