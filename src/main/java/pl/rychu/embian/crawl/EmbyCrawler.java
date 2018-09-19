@@ -16,17 +16,17 @@ import static java.util.stream.Collectors.toSet;
 public class EmbyCrawler {
 
 	private final EmbyClient embyClient;
-	private final List<ItemStrategy> itemStrategies;
+	private final List<ItemVisitor> itemVisitors;
 	private final String fieldQuery;
 
-	public EmbyCrawler(EmbyClient embyClient, ItemStrategy... itemStrategies) {
-		this(embyClient, Arrays.asList(itemStrategies));
+	public EmbyCrawler(EmbyClient embyClient, ItemVisitor... itemVisitors) {
+		this(embyClient, Arrays.asList(itemVisitors));
 	}
 
-	public EmbyCrawler(EmbyClient embyClient, Collection<ItemStrategy> itemStrategies) {
+	public EmbyCrawler(EmbyClient embyClient, Collection<ItemVisitor> itemVisitors) {
 		this.embyClient = embyClient;
-		List<ItemStrategy> str = new ArrayList<>(itemStrategies);
-		this.itemStrategies = str;
+		List<ItemVisitor> str = new ArrayList<>(itemVisitors);
+		this.itemVisitors = str;
 		Set<String> allFields = str.stream().flatMap(s -> s.getFields().stream()).collect(toSet());
 		this.fieldQuery = String.join(",", allFields);
 	}
@@ -57,8 +57,8 @@ public class EmbyCrawler {
 			for (Item item : items) {
 				boolean shouldRecurse = false;
 				List<ItemOperation> allOperations = new ArrayList<>();
-				for (ItemStrategy itemStrategy : itemStrategies) {
-					ItemScanResult itemScanResult = itemStrategy.process(item);
+				for (ItemVisitor itemVisitor : itemVisitors) {
+					ItemScanResult itemScanResult = itemVisitor.process(item);
 					allOperations.addAll(itemScanResult.getOperations());
 					shouldRecurse |= itemScanResult.isShouldRecurse();
 				}

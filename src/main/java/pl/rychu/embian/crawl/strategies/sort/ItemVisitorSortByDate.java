@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.rychu.embian.crawl.ItemOperation;
 import pl.rychu.embian.crawl.ItemScanResult;
-import pl.rychu.embian.crawl.ItemStrategy;
+import pl.rychu.embian.crawl.ItemVisitor;
 import pl.rychu.embian.emby.Item;
 
 import java.util.*;
@@ -16,9 +16,9 @@ import static pl.rychu.embian.crawl.ItemCommandType.ASSIGN_SORTNAME;
 /**
  * Created on 2018-08-09 by rychu.
  */
-public class ItemStrategySortByDate implements ItemStrategy {
+public class ItemVisitorSortByDate implements ItemVisitor {
 
-	private static final Logger log = LoggerFactory.getLogger(ItemStrategySortByDate.class);
+	private static final Logger log = LoggerFactory.getLogger(ItemVisitorSortByDate.class);
 
 	private final SortNameCalculator sortNameCalculator = new SortNameCalculator();
 

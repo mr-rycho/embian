@@ -2,7 +2,7 @@ package pl.rychu.embian.crawl.strategies.sort;
 
 import pl.rychu.embian.crawl.ItemOperation;
 import pl.rychu.embian.crawl.ItemScanResult;
-import pl.rychu.embian.crawl.ItemStrategy;
+import pl.rychu.embian.crawl.ItemVisitor;
 import pl.rychu.embian.emby.Item;
 
 import java.util.*;
@@ -11,7 +11,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static pl.rychu.embian.crawl.ItemCommandType.ASSIGN_SORTNAME;
 
-public class ItemStrategyResetSortName implements ItemStrategy {
+public class ItemVisitorResetSortName implements ItemVisitor {
 
 	@Override
 	public Set<String> getFields() {

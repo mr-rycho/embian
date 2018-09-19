@@ -2,7 +2,7 @@ package pl.rychu.embian.crawl.strategies.tag;
 
 import pl.rychu.embian.crawl.ItemOperation;
 import pl.rychu.embian.crawl.ItemScanResult;
-import pl.rychu.embian.crawl.ItemStrategy;
+import pl.rychu.embian.crawl.ItemVisitor;
 import pl.rychu.embian.emby.Item;
 import pl.rychu.embian.fs.Filesystem;
 
@@ -16,11 +16,11 @@ import static pl.rychu.embian.crawl.ItemCommandType.REMOVE_TAG;
 /**
  * Created on 2018-07-10 by rychu.
  */
-public class ItemStrategyTagSync implements ItemStrategy {
+public class ItemVisitorTagSync implements ItemVisitor {
 
 	private final Filesystem filesystem;
 
-	public ItemStrategyTagSync(Filesystem filesystem) {
+	public ItemVisitorTagSync(Filesystem filesystem) {
 		this.filesystem = filesystem;
 	}
 

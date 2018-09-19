@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Created on 2018-07-10 by rychu.
  */
-public interface ItemStrategy {
+public interface ItemVisitor {
 
 	Set<String> getFields();
 

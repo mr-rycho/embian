@@ -2,7 +2,7 @@ package pl.rychu.embian.crawl.strategies.tag;
 
 import pl.rychu.embian.crawl.ItemOperation;
 import pl.rychu.embian.crawl.ItemScanResult;
-import pl.rychu.embian.crawl.ItemStrategy;
+import pl.rychu.embian.crawl.ItemVisitor;
 import pl.rychu.embian.emby.Item;
 
 import java.util.*;
@@ -14,7 +14,7 @@ import static pl.rychu.embian.crawl.ItemCommandType.TAG_INFO;
 /**
  * Created on 2018-08-03 by rychu.
  */
-public class ItemStrategyTagRead implements ItemStrategy {
+public class ItemVisitorTagRead implements ItemVisitor {
 
 	@Override
 	public Set<String> getFields() {

@@ -3,9 +3,9 @@ package pl.rychu.embian.crawl;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.rychu.embian.crawl.strategies.sort.ItemStrategyResetSortName;
-import pl.rychu.embian.crawl.strategies.sort.ItemStrategySortByDate;
-import pl.rychu.embian.crawl.strategies.tag.ItemStrategyTagSync;
+import pl.rychu.embian.crawl.strategies.sort.ItemVisitorResetSortName;
+import pl.rychu.embian.crawl.strategies.sort.ItemVisitorSortByDate;
+import pl.rychu.embian.crawl.strategies.tag.ItemVisitorTagSync;
 import pl.rychu.embian.emby.EmbyClient;
 import pl.rychu.embian.emby.EmbyCmdExec;
 import pl.rychu.embian.fs.Filesystem;
@@ -68,20 +68,20 @@ public class CrawlAndCommand {
 
 		EmbyClient embyClient = embyClientSupplier.get();
 
-		List<ItemStrategy> itemStrategies = new ArrayList<>();
+		List<ItemVisitor> itemVisitors = new ArrayList<>();
 		if (cmd.hasOption(OPT_RESET_SORT_NAME)) {
-			itemStrategies.add(new ItemStrategyResetSortName());
+			itemVisitors.add(new ItemVisitorResetSortName());
 		}
 		if (cmd.hasOption(OPT_SET_SORT_NAME)) {
-			itemStrategies.add(new ItemStrategySortByDate());
+			itemVisitors.add(new ItemVisitorSortByDate());
 		}
 		if (cmd.hasOption(OPT_SYNC_TAGS)) {
 			Filesystem filesystem = new FilesystemDrive();
 //		Filesystem filesystem = new FilesystemMock();
-			itemStrategies.add(new ItemStrategyTagSync(filesystem));
+			itemVisitors.add(new ItemVisitorTagSync(filesystem));
 		}
 
-		EmbyCrawler embyCrawler = new EmbyCrawler(embyClient, itemStrategies);
+		EmbyCrawler embyCrawler = new EmbyCrawler(embyClient, itemVisitors);
 
 		long t0 = System.currentTimeMillis();
 		List<ItemOperations> commands = embyCrawler.crawl();

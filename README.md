@@ -10,7 +10,7 @@ Embian does not "hook" into Emby.
 Instead it just uses Emby's public API to crawl through the whole repository and change folder's properties.
 You have to manually start Embian when you want to sync tags in Emby's folders' metadata with special "tag" files in filesystem.
 
-Actually Embian can do a bit more: it is a generic crawling routine with pluggable strategies. Currently there are two:
+Actually Embian can do a bit more: it is a generic crawling routine with pluggable visitors. Currently there are two:
 - apply/remove "priv" tag
 - fix sortnames (see below)
 
@@ -26,8 +26,8 @@ The commands are: `crawl` and `browse`.
 
 #### `crawl` command
 
-Crawls the Emby repository and runs item strategies given as parameters.
-Every strategy optionally produces an update operation and tells the crawler if to crawl one level deeper into the hierarchy.
+Crawls the Emby repository and runs item visitors given as parameters.
+Every visitor optionally produces an update operation and tells the crawler if to crawl one level deeper into the hierarchy.
 When all folders are visited the produced operations are executed.
 The operation may be to add or remove tag or to change or reset the sort name.
 
@@ -48,7 +48,7 @@ Embian does not use official Emby client but a simple jersey-based client.
 
 The `Main` class reads login options and the command and then creates an authenticated Emby connection and passes it to a command's class e.g. `CrawlAndCommand` or `Browse`.
 
-The `CrawlAndCommand` first instantiates item strategies chosen by the user and runs `EmbyCrawler` with them.
+The `CrawlAndCommand` first instantiates item visitors chosen by the user and runs `EmbyCrawler` with them.
 The `EmbyCrawler` produces list of item operations that are executed by `CrawlAndCommand`.
 
 Unfortunately Embian gives no extensibility besides downloading sources and modifying.
