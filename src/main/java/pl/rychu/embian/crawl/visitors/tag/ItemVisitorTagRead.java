@@ -1,4 +1,4 @@
-package pl.rychu.embian.crawl.strategies.tag;
+package pl.rychu.embian.crawl.visitors.tag;
 
 import pl.rychu.embian.crawl.ItemOperation;
 import pl.rychu.embian.crawl.ItemScanResult;

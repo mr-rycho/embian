@@ -1,4 +1,4 @@
-package pl.rychu.embian.crawl.strategies.sort;
+package pl.rychu.embian.crawl.visitors.sort;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

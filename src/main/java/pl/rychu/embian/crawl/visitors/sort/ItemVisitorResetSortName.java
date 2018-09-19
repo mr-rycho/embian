@@ -1,4 +1,4 @@
-package pl.rychu.embian.crawl.strategies.sort;
+package pl.rychu.embian.crawl.visitors.sort;
 
 import pl.rychu.embian.crawl.ItemOperation;
 import pl.rychu.embian.crawl.ItemScanResult;
