@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("squid:S106")
 public class Main {
 
-	private static final String OPT_HOST = "host";
+	private static final String OPT_URL = "url";
 	private static final String OPT_USER = "user";
 	private static final String OPT_PASS = "pass";
 
@@ -36,7 +36,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Options opts = new Options();
-		opts.addOption(null, OPT_HOST, true, "emby url");
+		opts.addOption(null, OPT_URL, true, "emby url");
 		opts.addOption(null, OPT_USER, true, "user");
 		opts.addOption(null, OPT_PASS, true, "pass");
 
@@ -51,8 +51,8 @@ public class Main {
 		try {
 			CommandLine cmd = new DefaultParser().parse(opts, args, props, true);
 
-			if (!cmd.hasOption(OPT_HOST) || !cmd.hasOption(OPT_USER) || !cmd.hasOption(OPT_PASS)) {
-				System.out.println("ERROR: incomplete login params (host/user/pass)");
+			if (!cmd.hasOption(OPT_URL) || !cmd.hasOption(OPT_USER) || !cmd.hasOption(OPT_PASS)) {
+				System.out.println("ERROR: incomplete login params (url/user/pass)");
 				printHelp(opts);
 				System.exit(1);
 				return;
@@ -60,8 +60,8 @@ public class Main {
 
 			Supplier<EmbyClient> embyClientSupplier = () -> {
 				Client client = ClientBuilder.newClient(new ClientConfig());
-				return new EmbyClientFactory().authenticate(client, cmd.getOptionValue(OPT_HOST), cmd.getOptionValue(OPT_USER)
-					 , cmd.getOptionValue(OPT_PASS));
+				return new EmbyClientFactory().authenticate(client, cmd.getOptionValue(OPT_URL), cmd.getOptionValue(OPT_USER),
+					 cmd.getOptionValue(OPT_PASS));
 			};
 
 			String[] argsCmd = cmd.getArgs();

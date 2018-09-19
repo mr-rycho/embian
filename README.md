@@ -18,8 +18,8 @@ Actually Embian can do a bit more: it is a generic crawling routine with pluggab
 
     java -jar embian-.....jar [login options] [command] [command's parameters]
 
-The _login options_ are _host_, _username_ and _password_.
-You can skip some of these provided you have a file called ".embian" in your home directory that contains these properties.
+The _login options_ are _url_, _username_ and _password_.
+You can skip some of these, provided you have a file called ".embian" in your home directory that contains these properties.
 See "`man/.embian`" in the project source.
 
 The commands are: `crawl` and `browse`.
