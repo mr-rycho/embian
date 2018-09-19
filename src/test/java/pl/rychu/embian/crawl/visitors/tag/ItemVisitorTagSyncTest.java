@@ -40,10 +40,11 @@ public class ItemVisitorTagSyncTest {
 	@Test
 	public void shouldDoNothingAndNotRecurse() {
 		// given
+		ItemVisitorTagSync vis = this.visitorPriv;
 		Item item = itemWithTags("priv", "privB", "kot");
 
 		// when
-		ItemScanResult result = visitorPriv.process(item);
+		ItemScanResult result = vis.process(item);
 
 		// then
 		assertThat(result.isShouldRecurse()).isFalse();
@@ -53,10 +54,11 @@ public class ItemVisitorTagSyncTest {
 	@Test
 	public void shouldAddTagAndNotRecurse() {
 		// given
+		ItemVisitorTagSync vis = this.visitorPriv;
 		Item item = itemWithTags("privB", "kot");
 
 		// when
-		ItemScanResult result = visitorPriv.process(item);
+		ItemScanResult result = vis.process(item);
 
 		// then
 		assertThat(result.isShouldRecurse()).isFalse();
@@ -71,10 +73,11 @@ public class ItemVisitorTagSyncTest {
 	@Test
 	public void shouldRemoveTagAndRecurse() {
 		// given
+		ItemVisitorTagSync vis = this.visitorNoPriv;
 		Item item = itemWithTags("priv", "privB", "kot");
 
 		// when
-		ItemScanResult result = visitorNoPriv.process(item);
+		ItemScanResult result = vis.process(item);
 
 		// then
 		assertThat(result.isShouldRecurse()).isTrue();
@@ -89,10 +92,11 @@ public class ItemVisitorTagSyncTest {
 	@Test
 	public void shouldDoNothingAndRecurse() {
 		// given
+		ItemVisitorTagSync vis = this.visitorNoPriv;
 		Item item = itemWithTags("privB", "kot");
 
 		// when
-		ItemScanResult result = visitorNoPriv.process(item);
+		ItemScanResult result = vis.process(item);
 
 		// then
 		assertThat(result.isShouldRecurse()).isTrue();
