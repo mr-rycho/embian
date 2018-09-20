@@ -11,7 +11,7 @@ Instead it just uses Emby's public API to crawl through the whole repository and
 You have to manually start Embian when you want to sync tags in Emby's folders' metadata with special "tag" files in filesystem.
 
 Actually Embian can do a bit more: it is a generic crawling routine with pluggable visitors. Currently there are two:
-- apply/remove "priv" tag
+- apply/remove "priv*" tags
 - fix sortnames (see below)
 
 ### Usage
@@ -29,7 +29,7 @@ The commands are: `crawl` and `browse`.
 Crawls the Emby repository and runs item visitors given as parameters.
 Every visitor optionally produces an update operation and tells the crawler if to crawl one level deeper into the hierarchy.
 When all folders are visited the produced operations are executed.
-The operation may be to add or remove tag or to change or reset the sort name.
+The operation may be to add or remove tags or to change or reset the sort name.
 
 ##### `sortName` fixer
 
