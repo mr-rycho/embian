@@ -9,7 +9,7 @@ import pl.rychu.embian.fs.Filesystem;
 import java.util.*;
 
 import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
+import static java.util.stream.Collectors.toSet;
 import static pl.rychu.embian.crawl.ItemCommandType.ASSIGN_TAG;
 import static pl.rychu.embian.crawl.ItemCommandType.REMOVE_TAG;
 
@@ -36,26 +36,33 @@ public class ItemVisitorTagSync implements ItemVisitor {
 	public ItemScanResult process(Item item) {
 		Set<String> itemTags = new HashSet<>(item.getTags());
 		Set<String> fsTags = filesystem.listTags(item.getPath());
-		boolean itemPriv = itemTags.contains("priv");
-		boolean fsPriv = fsTags.contains("priv");
+		Set<String> itemPrivTags = itemTags.stream().filter(t -> t.startsWith("priv")).collect(toSet());
+		Set<String> fsPrivTags = fsTags.stream().filter(t -> t.startsWith("priv")).collect(toSet());
 
-		if (itemPriv && fsPriv) {
-			return new ItemScanResult(emptyList(), false);
-		}
-		if (!itemPriv && !fsPriv) {
+		Set<String> tagsOnlyInItem = diff(itemPrivTags, fsPrivTags);
+		Set<String> tagsOnlyInFs = diff(fsPrivTags, itemPrivTags);
+
+		if (tagsOnlyInFs.isEmpty() && tagsOnlyInItem.isEmpty()) {
 			return new ItemScanResult(emptyList(), true);
 		}
-		if (itemPriv) { //  && !fsPriv
+		List<ItemOperation> ops = new ArrayList<>();
+		if (!tagsOnlyInFs.isEmpty()) {
 			Map<String, Object> params = new HashMap<>();
-			params.put("tags", singletonList("priv"));
-			ItemOperation op = new ItemOperation(REMOVE_TAG, params);
-			return new ItemScanResult(singletonList(op), true);
+			params.put("tags", new ArrayList<>(tagsOnlyInFs));
+			ItemOperation op = new ItemOperation(ASSIGN_TAG, params);
+			ops.add(op);
 		}
-		// !itemPriv && fsPriv
-		Map<String, Object> params = new HashMap<>();
-		params.put("tags", singletonList("priv"));
-		ItemOperation op = new ItemOperation(ASSIGN_TAG, params);
-		return new ItemScanResult(singletonList(op), false);
+		if (!tagsOnlyInItem.isEmpty()) {
+			Map<String, Object> params = new HashMap<>();
+			params.put("tags", new ArrayList<>(tagsOnlyInItem));
+			ItemOperation op = new ItemOperation(REMOVE_TAG, params);
+			ops.add(op);
+		}
+		return new ItemScanResult(ops, true);
+	}
+
+	private static <T> Set<T> diff(Set<T> setA, Set<T> setB) {
+		return setA.stream().filter(t -> !setB.contains(t)).collect(toSet());
 	}
 
 }
