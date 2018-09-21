@@ -35,8 +35,8 @@ public class EmbyClient {
 		WebTarget webTarget = client.target(path);
 		Invocation.Builder builder = webTarget.request(MediaType.APPLICATION_JSON);
 		builder.header("X-MediaBrowser-Token", accessToken);
-		String auth = "MediaBrowser UserId=\"" + userId + "\", Client=\"Dashboard\", Device=\".NET Webclient\", DeviceId=\"" + UUID
-		 .randomUUID() + "\", Version=\"1.0.0.0\"";
+		String auth = "MediaBrowser UserId=\"" + userId + "\", Client=\"Dashboard\", Device=\".NET Webclient\", " +
+			 "DeviceId=\"" + UUID.randomUUID() + "\", Version=\"1.0.0.0\"";
 		builder.header("Authorization", auth);
 		Response resp = builder.get();
 		String s = resp.readEntity(String.class);
@@ -54,8 +54,8 @@ public class EmbyClient {
 		WebTarget webTarget = client.target(path);
 		Invocation.Builder builder = webTarget.request(MediaType.APPLICATION_JSON);
 		builder.header("X-MediaBrowser-Token", accessToken);
-		String auth = "MediaBrowser UserId=\"" + userId + "\", Client=\"Dashboard\", Device=\".NET Webclient\", DeviceId=\"" + UUID
-		 .randomUUID() + "\", Version=\"1.0.0.0\"";
+		String auth = "MediaBrowser UserId=\"" + userId + "\", Client=\"Dashboard\", Device=\".NET Webclient\", " +
+			 "DeviceId=\"" + UUID.randomUUID() + "\", Version=\"1.0.0.0\"";
 		builder.header("Authorization", auth);
 		Response resp = builder.get();
 		String s = resp.readEntity(String.class);
@@ -81,12 +81,39 @@ public class EmbyClient {
 		WebTarget webTarget = client.target(path);
 		Invocation.Builder builder = webTarget.request(MediaType.APPLICATION_JSON);
 		builder.header("X-MediaBrowser-Token", accessToken);
-		String auth = "MediaBrowser UserId=\"" + userId + "\", Client=\"Dashboard\", Device=\".NET Webclient\", DeviceId=\"" + UUID
-		 .randomUUID() + "\", Version=\"1.0.0.0\"";
+		String auth = "MediaBrowser UserId=\"" + userId + "\", Client=\"Dashboard\", Device=\".NET Webclient\", " +
+			 "DeviceId=\"" + UUID.randomUUID() + "\", Version=\"1.0.0.0\"";
 		builder.header("Authorization", auth);
 		Entity<String> stringEntity = Entity.entity(json, MediaType.APPLICATION_JSON_TYPE);
 		Response resp = builder.post(stringEntity);
 		return resp.getStatus();
+	}
+
+	public int refresh() {
+		String path = emby + "/library/refresh";
+		WebTarget webTarget = client.target(path);
+		Invocation.Builder builder = webTarget.request();
+		builder.header("X-MediaBrowser-Token", accessToken);
+		String auth = "MediaBrowser UserId=\"" + userId + "\", Client=\"Dashboard\", Device=\".NET Webclient\", " +
+			 "DeviceId=\"" + UUID.randomUUID() + "\", Version=\"1.0.0.0\"";
+		builder.header("Authorization", auth);
+		Response resp = builder.post(null);
+		return resp.getStatus();
+	}
+
+	public Map<String, Object> getScheduledTasks() {
+		String path = emby + "/ScheduledTasks";
+		WebTarget webTarget = client.target(path);
+		Invocation.Builder builder = webTarget.request();
+		builder.header("X-MediaBrowser-Token", accessToken);
+		String auth = "MediaBrowser UserId=\"" + userId + "\", Client=\"Dashboard\", Device=\".NET Webclient\", " +
+			 "DeviceId=\"" + UUID.randomUUID() + "\", Version=\"1.0.0.0\"";
+		builder.header("Authorization", auth);
+		Response resp = builder.get();
+		String s = resp.readEntity(String.class);
+		//noinspection unchecked
+		Map<String, Object> map = (Map<String, Object>) new Gson().fromJson(s, Map.class);
+		return map;
 	}
 
 }

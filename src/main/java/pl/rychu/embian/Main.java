@@ -6,6 +6,8 @@ import pl.rychu.embian.browse.Browse;
 import pl.rychu.embian.crawl.CrawlAndCommand;
 import pl.rychu.embian.emby.EmbyClient;
 import pl.rychu.embian.emby.EmbyClientFactory;
+import pl.rychu.embian.refresh.JobMon;
+import pl.rychu.embian.refresh.Refresh;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -30,7 +32,9 @@ public class Main {
 
 	private static final String CMD_CRAWL = "crawl";
 	private static final String CMD_BROWSE = "browse";
-	private static final String[] CMDS = new String[]{CMD_CRAWL, CMD_BROWSE};
+	private static final String CMD_REFRESH = "refresh";
+	private static final String CMD_JOB_MON = "job-mon";
+	private static final String[] CMDS = new String[]{CMD_CRAWL, CMD_BROWSE, CMD_REFRESH, CMD_JOB_MON};
 
 	// ----------
 
@@ -77,6 +81,10 @@ public class Main {
 				new CrawlAndCommand(embyClientSupplier).exec(cmdArgs);
 			} else if (command.equals(CMD_BROWSE)) {
 				new Browse(embyClientSupplier).exec(cmdArgs);
+			} else if (command.equals(CMD_REFRESH)) {
+				new Refresh(embyClientSupplier).exec(cmdArgs);
+			} else if (command.equals(CMD_JOB_MON)) {
+				new JobMon(embyClientSupplier).exec(cmdArgs);
 			}
 		} catch (ParseException e) {
 			throw new RuntimeException(e);
