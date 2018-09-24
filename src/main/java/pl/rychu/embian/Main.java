@@ -26,9 +26,13 @@ import java.util.function.Supplier;
 @SuppressWarnings("squid:S106")
 public class Main {
 
+	private static final String EMBIAN_VERSION = "embian.02";
+
 	private static final String OPT_URL = "url";
 	private static final String OPT_USER = "user";
 	private static final String OPT_PASS = "pass";
+	private static final String OPT_HELP = "help";
+	private static final String OPT_VER = "version";
 
 	private static final String CMD_CRAWL = "crawl";
 	private static final String CMD_BROWSE = "browse";
@@ -43,6 +47,8 @@ public class Main {
 		opts.addOption(null, OPT_URL, true, "emby url");
 		opts.addOption(null, OPT_USER, true, "user");
 		opts.addOption(null, OPT_PASS, true, "pass");
+		opts.addOption(null, OPT_HELP, false, "prints this help");
+		opts.addOption(null, OPT_VER, false, "prints version");
 
 		if (args.length == 0) {
 			printHelp(opts);
@@ -54,6 +60,18 @@ public class Main {
 
 		try {
 			CommandLine cmd = new DefaultParser().parse(opts, args, props, true);
+
+			if (cmd.hasOption(OPT_HELP)) {
+				printHelp(opts);
+				System.exit(0);
+				return;
+			}
+
+			if (cmd.hasOption(OPT_VER)) {
+				System.out.println(EMBIAN_VERSION);
+				System.exit(0);
+				return;
+			}
 
 			if (!cmd.hasOption(OPT_URL) || !cmd.hasOption(OPT_USER) || !cmd.hasOption(OPT_PASS)) {
 				System.out.println("ERROR: incomplete login params (url/user/pass)");
