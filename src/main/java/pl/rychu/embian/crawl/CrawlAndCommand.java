@@ -11,7 +11,6 @@ import pl.rychu.embian.emby.EmbyCmdExec;
 import pl.rychu.embian.fs.Filesystem;
 import pl.rychu.embian.fs.FilesystemDrive;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -47,7 +46,8 @@ public class CrawlAndCommand {
 
 	public void exec(String[] args) {
 		Options opts = new Options();
-		opts.addOption(null, OPT_RESET_SORT_NAME, false, "reset sort names in all directories i.e. make emby recompute it");
+		opts.addOption(null, OPT_RESET_SORT_NAME, false, "reset sort names in all directories i.e. make emby recompute " +
+			 "it");
 		opts.addOption(null, OPT_SET_SORT_NAME, false, "set sort names in date directories e.g. \"2018-08 ...\"");
 		opts.addOption(null, OPT_SYNC_TAGS, false, "synchronizes priv* tags with filesystem");
 		opts.addOption(null, OPT_HELP, false, "prints this help");
@@ -62,8 +62,8 @@ public class CrawlAndCommand {
 		try {
 			cmd = parser.parse(opts, args);
 		} catch (ParseException e) {
-			System.err.println("ERROR: error parsing command line");
-			e.printStackTrace(new PrintWriter(System.err));
+			System.out.println("ERROR: error parsing 'crawl' command line");
+			System.out.println("message: " + e.getMessage());
 			System.exit(1);
 			return;
 		}
