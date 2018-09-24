@@ -29,6 +29,7 @@ public class CrawlAndCommand {
 
 	private static final Logger log = LoggerFactory.getLogger(CrawlAndCommand.class);
 
+	private static final String OPT_HELP = "help";
 	private static final String OPT_RESET_SORT_NAME = "reset-sort-name";
 	private static final String OPT_SET_SORT_NAME = "set-sort-name";
 	private static final String OPT_SYNC_TAGS = "sync-tags";
@@ -46,9 +47,15 @@ public class CrawlAndCommand {
 
 	public void exec(String[] args) {
 		Options opts = new Options();
-		opts.addOption("", OPT_RESET_SORT_NAME, false, "reset sort names in all directories i.e. make emby recompute it");
-		opts.addOption("", OPT_SET_SORT_NAME, false, "set sort names in date directories e.g. \"2018-08 ...\"");
-		opts.addOption("", OPT_SYNC_TAGS, false, "synchronizes tags with filesystem");
+		opts.addOption(null, OPT_RESET_SORT_NAME, false, "reset sort names in all directories i.e. make emby recompute it");
+		opts.addOption(null, OPT_SET_SORT_NAME, false, "set sort names in date directories e.g. \"2018-08 ...\"");
+		opts.addOption(null, OPT_SYNC_TAGS, false, "synchronizes priv* tags with filesystem");
+		opts.addOption(null, OPT_HELP, false, "prints this help");
+
+		if (args.length == 0) {
+			printHelpAndExitWithStatus(opts, 0);
+			return;
+		}
 
 		CommandLineParser parser = new DefaultParser();
 		CommandLine cmd;
@@ -58,6 +65,11 @@ public class CrawlAndCommand {
 			System.err.println("ERROR: error parsing command line");
 			e.printStackTrace(new PrintWriter(System.err));
 			System.exit(1);
+			return;
+		}
+
+		if (cmd.hasOption(OPT_HELP)) {
+			printHelpAndExitWithStatus(opts, 0);
 			return;
 		}
 
@@ -137,7 +149,14 @@ public class CrawlAndCommand {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
+
+	private void printHelpAndExitWithStatus(Options options, int exitStatus) {
+		HelpFormatter hf = new HelpFormatter();
+		hf.setSyntaxPrefix("");
+		hf.printHelp("crawl options:", options);
+		System.exit(exitStatus);
+	}
+
 
 }
