@@ -101,7 +101,7 @@ public class EmbyClient {
 		return resp.getStatus();
 	}
 
-	public Map<String, Object> getScheduledTasks() {
+	public List<ScheduledTask> getScheduledTasks() {
 		String path = emby + "/ScheduledTasks";
 		WebTarget webTarget = client.target(path);
 		Invocation.Builder builder = webTarget.request();
@@ -112,8 +112,12 @@ public class EmbyClient {
 		Response resp = builder.get();
 		String s = resp.readEntity(String.class);
 		//noinspection unchecked
-		Map<String, Object> map = (Map<String, Object>) new Gson().fromJson(s, Map.class);
-		return map;
+		List<Map<String, Object>> jobMaps = (List<Map<String, Object>>) new Gson().fromJson(s, List.class);
+		List<ScheduledTask> tasks = new ArrayList<>();
+		for (Map<String, Object> jobMap : jobMaps) {
+			tasks.add(new ScheduledTask(jobMap));
+		}
+		return tasks;
 	}
 
 }
