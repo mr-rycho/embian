@@ -22,6 +22,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import static java.util.stream.Collectors.toList;
+
 @SuppressWarnings("squid:S106")
 public class CrawlAndCommand {
 
@@ -31,6 +33,7 @@ public class CrawlAndCommand {
 	private static final String OPT_SET_SORT_NAME = "set-sort-name";
 	private static final String OPT_SYNC_TAGS = "sync-tags";
 
+	private static final List<String> ALL_VIS = Arrays.asList(OPT_RESET_SORT_NAME, OPT_SET_SORT_NAME, OPT_SYNC_TAGS);
 	// --------
 
 	private final Supplier<EmbyClient> embyClientSupplier;
@@ -58,10 +61,10 @@ public class CrawlAndCommand {
 			return;
 		}
 
-		List<String> req1 = Arrays.asList(OPT_RESET_SORT_NAME, OPT_SET_SORT_NAME, OPT_SYNC_TAGS);
-		boolean anyCmd = req1.stream().anyMatch(cmd::hasOption);
+		boolean anyCmd = ALL_VIS.stream().anyMatch(cmd::hasOption);
 		if (!anyCmd) {
-			System.err.println("must pass any of :" + req1);
+			List<String> avo = ALL_VIS.stream().map(s -> "--" + s).collect(toList());
+			System.err.println("must pass any of :" + avo);
 			System.exit(1);
 			return;
 		}
