@@ -103,6 +103,10 @@ public class Main {
 				new Refresh(embyClientSupplier).exec(cmdArgs);
 			} else if (command.equals(CMD_JOB_MON)) {
 				new JobMon(embyClientSupplier).exec(cmdArgs);
+			} else {
+				System.out.println("Unrecognized command: " + command);
+				System.exit(1);
+				return;
 			}
 		} catch (ParseException e) {
 			throw new RuntimeException(e);
