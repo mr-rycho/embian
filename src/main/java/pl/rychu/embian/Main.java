@@ -136,7 +136,8 @@ public class Main {
 		HelpFormatter hf = new HelpFormatter();
 		hf.setSyntaxPrefix("");
 		System.out.println("java -jar ... [login options] [command] [command's parameters]");
-		hf.printHelp("login options: (alternatively may be read from ~/.embian file)", options);
+		hf.printHelp("options", options);
+		System.out.println("login options may alternatively be read from ~/.embian file");
 		System.out.println("Commands:");
 		for (String cmd : CMDS) {
 			System.out.println("  " + cmd);
