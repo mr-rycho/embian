@@ -109,7 +109,8 @@ public class Main {
 				return;
 			}
 		} catch (ParseException e) {
-			throw new RuntimeException(e);
+			System.out.println("ERROR: " + e.getMessage());
+			System.exit(1);
 		}
 	}
 
