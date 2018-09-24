@@ -108,7 +108,7 @@ public class Main {
 				System.exit(1);
 				return;
 			}
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			System.out.println("ERROR: " + e.getMessage());
 			System.exit(1);
 		}

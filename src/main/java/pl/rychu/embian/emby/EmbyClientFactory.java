@@ -34,6 +34,9 @@ public class EmbyClientFactory {
 
 		Response resp = builder.post(formEntity);
 		String s = resp.readEntity(String.class);
+		if (!s.startsWith("{")) {
+			throw new IllegalStateException("login error: "+s);
+		}
 		Gson gson = new Gson();
 		//noinspection unchecked
 		Map<String, Object> map = (Map<String, Object>) gson.fromJson(s, Map.class);
